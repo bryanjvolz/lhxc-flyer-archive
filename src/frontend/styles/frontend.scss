@@ -1,0 +1,309 @@
+// Remove the CSS import since we're using SCSS directly
+// @import '../../../assets/css/frontend.css';
+
+// Base styles for the gallery
+.flyer-gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.flyer-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.flyer-gallery-item {
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.per-page-select {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+
+  button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+}
+
+
+// MOVED
+
+.flyer-gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.flyer-gallery-filters select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 180px;
+  background: #fff;
+}
+
+.flyer-gallery-item {
+  position: relative;
+  cursor: pointer;
+  // background: #fff;
+  // border-radius: 4px;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // overflow: hidden;
+
+  img {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: .15rem;
+    transition: transform 0.2s ease;
+  }
+}
+
+.flyer-gallery-item:hover {
+  img {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.flyer-gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.flyer-gallery-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.per-page-select {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.per-page-select select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-controls button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-controls button:hover {
+  background: #f5f5f5;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.flyer-gallery-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}
+
+.flyer-gallery-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.flyer-gallery-lightbox {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.9);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+}
+
+.flyer-gallery-lightbox .lightbox-content {
+max-width: 90vw;
+max-height: 90vh;
+position: relative;
+background: #fff;
+padding: 20px;
+border-radius: 4px;
+
+  @media screen and (min-width: 30rem){
+    display: grid;
+    grid-template-columns: 65% 35%;
+  }
+
+  @media screen and (min-width: 40rem){
+    display: grid;
+    grid-template-columns: 75% 25%;
+  }
+}
+
+.flyer-gallery-lightbox .close-button {
+position: absolute;
+top: 10px;
+right: 10px;
+background: none;
+border: none;
+font-size: 24px;
+cursor: pointer;
+color: #333;
+z-index: 1;
+}
+
+.flyer-gallery-lightbox .image-container {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.flyer-gallery-lightbox img {
+max-width: 100%;
+max-height: 70vh;
+object-fit: contain;
+}
+
+.flyer-gallery-lightbox .nav-button {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background: rgba(255, 255, 255, 0.8);
+border: none;
+padding: 10px 15px;
+cursor: pointer;
+font-size: 20px;
+}
+
+.flyer-gallery-lightbox .nav-button.prev {
+left: 10px;
+}
+
+.flyer-gallery-lightbox .nav-button.next {
+right: 10px;
+}
+
+.flyer-gallery-lightbox .image-info {
+// margin-top: 15px;
+// padding-top: 15px;
+// border-top: 1px solid #eee;
+  padding: .5em 1em;
+}
+
+.flyer-gallery-lightbox .image-info h3 {
+margin: 0 0 10px;
+}
+
+.flyer-gallery-lightbox .image-info p {
+margin: 5px 0;
+}
+
+.flyer-gallery-filters {
+display: flex;
+gap: 1rem;
+margin-bottom: 2rem;
+flex-wrap: wrap;
+}
+
+.flyer-gallery-filters .filter-select {
+min-width: 200px;
+flex: 1;
+}
+
+/* React Select custom styles */
+.filter-select .select__control {
+border-color: #ddd;
+box-shadow: none;
+}
+
+.filter-select .select__control:hover {
+border-color: #b4b4b4;
+}
+
+.filter-select .select__control--is-focused {
+border-color: #3498db;
+box-shadow: 0 0 0 1px #3498db;
+}
+
+.filter-select .select__menu {
+z-index: 2;
+}
+
+.filter-select .select__option--is-focused {
+background-color: #f5f5f5;
+}
+
+.filter-select .select__option--is-selected {
+background-color: #3498db;
+}
+
+.performers-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.performer-tag {
+  background: #f0f0f0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  display: inline-block;
+}
