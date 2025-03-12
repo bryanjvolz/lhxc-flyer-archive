@@ -21,7 +21,7 @@ export default function Lightbox({
         {performerList.map((performer, index) => (
           <span key={index} className="performer-tag">
             {performer.trim()}
-            {index !== performerList.length - 1 && ", "}
+            {/* {index !== performerList.length - 1 && ", "} */}
           </span>
         ))}
       </div>
@@ -70,7 +70,7 @@ export default function Lightbox({
               <strong>Date:</strong> {formatDate(image.event_date)}
             </p>
           )}
-          {image.venue && <p>Venue: {image.venue}</p>}
+          {image.venue && <p><strong>Venue:</strong> {image.venue}</p>}
           {image.performers && (
             <div className="performers-section">
               <p>

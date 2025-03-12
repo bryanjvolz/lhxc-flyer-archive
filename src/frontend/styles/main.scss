@@ -1,5 +1,8 @@
-// Remove the CSS import since we're using SCSS directly
-// @import '../../../assets/css/frontend.css';
+@import url('utilities.scss');
+
+:root {
+  --main-text: #333;
+}
 
 // Base styles for the gallery
 .flyer-gallery-container {
@@ -180,19 +183,35 @@
 }
 
 .flyer-gallery-lightbox .lightbox-content {
-  max-width: 90vw;
+  background-color: tan;
+  background-image: url("../images/grunge_bg1.jpg");
+  border-radius: 3px;
   max-height: 90vh;
+  max-width: 90vw;
+  padding: 1.25rem;
   position: relative;
-  background: #fff;
-  padding: 20px;
-  border-radius: 4px;
+  position: relative;
+
+  &::after{
+    background: rgba(255,255,255,.5);
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+  }
+  div {
+    z-index: 1;
+  }
 
   @media screen and (min-width: 30rem) {
     display: grid;
-    grid-template-columns: 65% 35%;
     display: grid;
-    grid-template-rows: 0.3fr 2fr;
     gap: 0 0;
+    grid-template-columns: 65% 35%;
+    grid-template-rows: 0.3fr 2fr;
     grid-template-areas:
       "header header"
       "Image Info";
@@ -204,52 +223,74 @@
   }
 }
 
-.image-header { grid-area: header; }
+.image-header {
+  display: flex;
+  gap: .5em;
+  grid-area: header;
+  padding-bottom: 1rem;
+
+  a {
+    transition: .3s ease all;
+  }
+
+  a:hover {
+    opacity: .85;
+  }
+}
 .image-container { grid-area: Image; }
 .image-info { grid-area: Info; }
 
 .flyer-gallery-lightbox .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: none;
   border: none;
-  font-size: 24px;
+  color: var(--main-text);
   cursor: pointer;
-  color: #333;
+  font-size: 34px;
+  font-weight: bold;
+  position: absolute;
+  right: 10px;
+  rotate: 3deg;
+  top: 10px;
+  transition: .3s ease-in-out;
   z-index: 1;
+
+  &:hover, &:focus, &:active {
+    rotate: 12deg;
+  }
 }
 
 .flyer-gallery-lightbox .image-container {
-  position: relative;
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .flyer-gallery-lightbox img {
-  max-width: 100%;
   max-height: 70vh;
+  max-width: 100%;
   object-fit: contain;
 }
 
 .flyer-gallery-lightbox .nav-button {
+  background: #fffc;
+  border: none;
+  box-shadow: 0 .15em .25em #0006;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 700;
+  padding: .25em .5em;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 20px;
 }
 
 .flyer-gallery-lightbox .nav-button.prev {
-  left: 10px;
+  left: -.15em;
 }
 
 .flyer-gallery-lightbox .nav-button.next {
-  right: 10px;
+  right: -.15em;
 }
 
 .flyer-gallery-lightbox .image-info {
@@ -311,7 +352,7 @@
 }
 
 .performer-tag {
-  background: #f0f0f0;
+  background: #d7d3d3;
   padding: 0.25rem 0.5rem;
   border-radius: 3px;
   font-size: 0.9em;
@@ -331,15 +372,29 @@
 }
 
 .share-email-link, .report-flyer-link {
-  color: #333;
+  color: var(--main-text);
   border-radius: 4px;
-  transition: color 0.2s ease;
+  transition: 0.2s all ease-in-out;
 
-  &:hover {
+  &:hover, &:active, &:focus {
     color: var(--accent-color);
+    rotate: 5deg;
   }
 
   svg {
     display: block;
   }
+}
+
+.flyer-gallery-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+
+    p {
+        color: var(--main-text);
+        font-size: 1.1em;
+    }
 }

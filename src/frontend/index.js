@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import './styles/frontend.scss';
+// import './styles/main.scss';
 import { FlyerGallery } from './components/FlyerGallery';
 
 // Initialize galleries

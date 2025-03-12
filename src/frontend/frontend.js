@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import FlyerGallery from './components/FlyerGallery';
-import './styles/frontend.scss';
+import './styles/main.scss';
 
 document.addEventListener('DOMContentLoaded', function() {
     const galleries = document.querySelectorAll('.flyer-gallery-root');

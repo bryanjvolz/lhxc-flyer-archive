@@ -10,7 +10,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
 
     return (
         <div className="flyer-gallery-filters">
-            <label htmlFor="year-filter">Year</label>
+            <label class="sr-only" htmlFor="year-filter">Year</label>
             <Select
                 id="year-filter"
                 className="filter-select"
@@ -21,7 +21,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
                 placeholder="Select Year"
             />
 
-            <label htmlFor="venue-filter">Venues</label>
+            <label class="sr-only" htmlFor="venue-filter">Venues</label>
             <Select
                 id="venue-filter"
                 className="filter-select"
@@ -126,6 +126,38 @@ export const FlyerGallery = ({ rootElement }) => {
         fetchImages();
     }, [currentPage, filters, perPage]);
 
+
+    useEffect(() => {
+      // Check for flyer ID in URL on initial load
+      const params = new URLSearchParams(window.location.search);
+      const flyerId = params.get('flyer');
+      if (flyerId) {
+          const image = images.find(img => img.id === parseInt(flyerId));
+          if (image) {
+              setSelectedImage(image);
+              setCurrentImageIndex(images.indexOf(image));
+          }
+      }
+  }, [images]);
+
+  const handleImageSelect = (image, index) => {
+      setSelectedImage(image);
+      setCurrentImageIndex(index);
+      // Update URL with flyer ID
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('flyer', image.id);
+      window.history.pushState({}, '', newUrl);
+  };
+
+  const handleLightboxClose = () => {
+      setSelectedImage(null);
+      setCurrentImageIndex(null);
+      // Remove flyer ID from URL
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.delete('flyer');
+      window.history.pushState({}, '', newUrl);
+  };
+
     return (
         <div className="flyer-gallery-container">
             <FlyerGalleryFilters
@@ -147,17 +179,18 @@ export const FlyerGallery = ({ rootElement }) => {
                     <div className="flyer-gallery-loading">
                         <div className="flyer-gallery-spinner"></div>
                     </div>
+                ) : images.length === 0 ? (
+                    <div className="flyer-gallery-empty">
+                        <p>No flyers found. Try adjusting your filters.</p>
+                    </div>
                 ) : (
                     images.map((image, index) => (
                         <div
                             key={image.id}
                             className="flyer-gallery-item"
-                            onClick={() => {
-                                setSelectedImage(image);
-                                setCurrentImageIndex(index);
-                            }}
+                            onClick={() => handleImageSelect(image, index)}
                         >
-                            <img src={image.thumbnail} alt="{image.alt}" />
+                            <img src={image.thumbnail} alt={image.alt} />
                         </div>
                     ))
                 )}
@@ -173,17 +206,15 @@ export const FlyerGallery = ({ rootElement }) => {
 
             <Lightbox
                 image={selectedImage}
-                onClose={() => setSelectedImage(null)}
+                onClose={handleLightboxClose}
                 onPrev={() => {
                     if (currentImageIndex > 0) {
-                        setSelectedImage(images[currentImageIndex - 1]);
-                        setCurrentImageIndex(currentImageIndex - 1);
+                        handleImageSelect(images[currentImageIndex - 1], currentImageIndex - 1);
                     }
                 }}
                 onNext={() => {
                     if (currentImageIndex < images.length - 1) {
-                        setSelectedImage(images[currentImageIndex + 1]);
-                        setCurrentImageIndex(currentImageIndex + 1);
+                        handleImageSelect(images[currentImageIndex + 1], currentImageIndex + 1);
                     }
                 }}
                 hasPrev={currentImageIndex > 0}

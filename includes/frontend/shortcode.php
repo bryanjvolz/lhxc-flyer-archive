@@ -35,7 +35,7 @@ function flyer_gallery_register_frontend_assets() {
 
     wp_register_style(
         'flyer-gallery-frontend',
-        FLYER_GALLERY_PLUGIN_URL . 'assets/css/frontend.css',
+        FLYER_GALLERY_PLUGIN_URL . 'assets/css/main.css',
         array(),
         FLYER_GALLERY_VERSION
     );

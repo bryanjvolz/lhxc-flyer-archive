@@ -23,7 +23,7 @@ function flyer_gallery_block_assets() {
 
     wp_register_style(
         'flyer-gallery-block',
-        FLYER_GALLERY_PLUGIN_URL . 'assets/css/frontend.css',
+        FLYER_GALLERY_PLUGIN_URL . 'assets/css/main.css',
         array(),
         FLYER_GALLERY_VERSION
     );
@@ -45,7 +45,7 @@ function flyer_gallery_render_block($attributes) {
     ob_start();
     ?>
     <div <?php echo $wrapper_attributes; ?>>
-        <div class="flyer-gallery-root" 
+        <div class="flyer-gallery-root"
              data-attributes="<?php echo esc_attr(wp_json_encode($attributes)); ?>"
              data-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>"
              data-nonce="<?php echo wp_create_nonce('flyer_gallery_nonce'); ?>">

@@ -17,7 +17,7 @@ const PerformerSelect = ({ value, onChange, performers }) => {
 
     return (
         <>
-            <label htmlFor="performers-filter">Bands/Performers</label>
+            <label class="sr-only" htmlFor="performers-filter">Bands/Performers</label>
             <Select
                 id="performers-filter"
                 className="filter-select"

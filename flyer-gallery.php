@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Flyer Gallery
- * Plugin URI:
+ * Plugin URI: https://www.louisvillehardcore.com/
  * Description: A gallery plugin for displaying posters and flyers with advanced filtering and metadata
  * Version: 1.0.0
  * Author: Bryan Volz
- * Author URI:
+ * Author URI: https://www.louisvillehardcore.com/
  * Text Domain: flyer-gallery
  * License: GPL v2 or later
  */
