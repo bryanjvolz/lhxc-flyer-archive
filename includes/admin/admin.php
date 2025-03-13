@@ -71,9 +71,9 @@ function flyer_gallery_attachment_fields($form_fields, $post) {
 
   // Venue
   $venue = get_post_meta($post->ID, '_flyer_gallery_venue', true);
-  $venues = get_option('flyer_gallery_venues', array());
-  $venue_html = '<input type="text" class="flyer-gallery-venue" list="flyer-gallery-venues" name="attachments[' . $post->ID . '][flyer_gallery_venue]" value="' . esc_attr($venue) . '">';
-  $venue_html .= '<datalist id="flyer-gallery-venues">';
+  $venues = get_option('flyer_gallery_venue', array());
+  $venue_html = '<input type="text" class="flyer-gallery-venue" list="flyer-gallery-venue" name="attachments[' . $post->ID . '][flyer_gallery_venue]" value="' . esc_attr($venue) . '">';
+  $venue_html .= '<datalist id="flyer-gallery-venue">';
   foreach ($venues as $saved_venue) {
       $venue_html .= '<option value="' . esc_attr($saved_venue) . '">';
   }
@@ -169,26 +169,35 @@ function flyer_gallery_save_attachment_fields($post, $attachment) {
         delete_post_meta($post['ID'], '_flyer_gallery_include');
     }
 
-    $fields = array(
-        'flyer_gallery_event_date',
-        'flyer_gallery_venue',
-        'flyer_gallery_artists',
-        'flyer_gallery_performers'
-    );
+  // Handle venue saving from either select or text input
+  if (isset($attachment['flyer_gallery_venue'])) {
+      $venue = sanitize_text_field($attachment['flyer_gallery_venue']);
+      update_post_meta($post['ID'], '_flyer_gallery_venue', $venue);
 
-    foreach ($fields as $field) {
-        if (isset($attachment[$field])) {
-            update_post_meta($post['ID'], '_' . $field, sanitize_text_field($attachment[$field]));
-        }
-    }
+      // Add to venues list if it's a new venue
+      $venues = get_option('flyer_gallery_venue', array());
+      if (!in_array($venue, $venues) && !empty($venue)) {
+          $venues[] = $venue;
+          sort($venues);
+          update_option('flyer_gallery_venue', array_unique($venues));
+          Flyer_Gallery_Logger::log('Venue saved: ' . $venue, 'debug');
+      } else {
+        Flyer_Gallery_Logger::log('Error saving venue: ' . $error_message, 'error');
+      }
+  }
 
-    if (isset($attachment['flyer_gallery_performers'])) {
-      // Convert line breaks to array, clean each entry, then store as comma-separated
-      $performers = explode("\n", $attachment['flyer_gallery_performers']);
-      $performers = array_map('trim', $performers);
-      $performers = array_filter($performers); // Remove empty entries
-      update_post_meta($post['ID'], '_flyer_gallery_performers', implode(',', $performers));
-    }
+  // Save other fields
+  $fields = array(
+      'flyer_gallery_event_date',
+      'flyer_gallery_artists',
+      'flyer_gallery_performers'
+  );
+
+  foreach ($fields as $field) {
+      if (isset($attachment[$field])) {
+          update_post_meta($post['ID'], '_' . $field, sanitize_text_field($attachment[$field]));
+      }
+  }
 
     return $post;
 }

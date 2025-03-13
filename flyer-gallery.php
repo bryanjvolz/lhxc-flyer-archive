@@ -60,6 +60,12 @@ function flyer_gallery_init() {
     require_once FLYER_GALLERY_PLUGIN_DIR . 'includes/frontend/block.php';
     // Add this line to include the AJAX handler
     require_once FLYER_GALLERY_PLUGIN_DIR . 'includes/frontend/ajax.php';
+
+    // Include logger
+    require_once FLYER_GALLERY_PLUGIN_DIR . 'includes/class-flyer-gallery-logger.php';
+
+    // Initialize logger
+    add_action('plugins_loaded', array('Flyer_Gallery_Logger', 'init'));
 }
 
 // Deactivation Hook
@@ -75,7 +81,7 @@ function flyer_gallery_deactivate() {
       // Clean up options
       delete_option('flyer_gallery_db_version');
       delete_option('flyer_gallery_title');
-      delete_option('flyer_gallery_venues');
+      delete_option('flyer_gallery_venue');
       delete_option('flyer_gallery_keep_data');
 
       // Clean up post meta
