@@ -5,15 +5,17 @@ if (!defined('ABSPATH')) {
 
 function flyer_gallery_get_images() {
     // Remove nonce check temporarily for testing
-    // check_ajax_referer('flyer_gallery_nonce', 'nonce');
+    check_ajax_referer('flyer_gallery_nonce', 'nonce');
 
     $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
     $per_page = isset($_GET['per_page']) ? intval($_GET['per_page']) : 12;
-    
+
     // Get filter values
     $year = isset($_GET['year']) ? sanitize_text_field($_GET['year']) : '';
-    $venue = isset($_GET['venue']) ? sanitize_text_field($_GET['venue']) : '';
-    $performer = isset($_GET['performer']) ? sanitize_text_field($_GET['performer']) : '';
+    $venue = isset($_GET['venue']) ? wp_unslash(html_entity_decode(sanitize_text_field($_GET['venue']), ENT_QUOTES)) : '';
+    $performer = isset($_GET['performer']) ? wp_unslash(html_entity_decode(sanitize_text_field($_GET['performer']), ENT_QUOTES)) : '';
+
+    $venue = isset($_GET['venue']) ? wp_unslash(html_entity_decode(sanitize_text_field($_GET['venue']), ENT_QUOTES)) : '';
 
     // Build meta query
     $meta_query = array(
@@ -43,6 +45,7 @@ function flyer_gallery_get_images() {
             'compare' => '='
         );
     }
+    $venue = isset($_GET['venue']) ? wp_unslash(html_entity_decode(sanitize_text_field($_GET['venue']), ENT_QUOTES)) : '';
 
     // Add performer filter
     if (!empty($performer)) {
@@ -94,19 +97,19 @@ function flyer_gallery_get_available_filters() {
 
     return array(
         'years' => $wpdb->get_col($wpdb->prepare(
-            "SELECT DISTINCT YEAR(meta_value) FROM $wpdb->postmeta 
-            WHERE meta_key = %s AND meta_value != '' 
+            "SELECT DISTINCT YEAR(meta_value) FROM $wpdb->postmeta
+            WHERE meta_key = %s AND meta_value != ''
             ORDER BY meta_value DESC",
             '_flyer_gallery_event_date'
         )),
         'venues' => $wpdb->get_col($wpdb->prepare(
-            "SELECT DISTINCT meta_value FROM $wpdb->postmeta 
+            "SELECT DISTINCT meta_value FROM $wpdb->postmeta
             WHERE meta_key = %s AND meta_value != ''
             ORDER BY meta_value ASC",
             '_flyer_gallery_venue'
         )),
         'performers' => $wpdb->get_col($wpdb->prepare(
-            "SELECT DISTINCT meta_value FROM $wpdb->postmeta 
+            "SELECT DISTINCT meta_value FROM $wpdb->postmeta
             WHERE meta_key = %s AND meta_value != ''
             ORDER BY meta_value ASC",
             '_flyer_gallery_performers'

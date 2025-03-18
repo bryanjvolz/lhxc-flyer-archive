@@ -3,7 +3,8 @@ import React from "react";
 const ReportFlyer = ({ image }) => {
   const createReportLink = () => {
     const subject = encodeURIComponent(`LHxC Flyer Gallery - ${image.title}`);
-    return `mailto:?subject=${subject}`;
+    const adminEmail = encodeURIComponent("admin@louisvillehardcore.com");
+    return `mailto:?subject=${subject}&to=${adminEmail}&body=Please describe any issues with the flyer here:`;
   };
 
   return (

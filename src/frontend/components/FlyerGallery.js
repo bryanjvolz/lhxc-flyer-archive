@@ -7,6 +7,10 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
     const createOptions = (values) => {
         return values.map(value => ({ value, label: value }));
     };
+    const handleFilterChange = (newFilters) => {
+      onChange(newFilters);
+      setCurrentPage(1); // Reset to first page to prevent it looking like there's no results
+    };
 
     return (
         <div className="flyer-gallery-filters">
@@ -15,7 +19,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
                 id="year-filter"
                 className="filter-select"
                 value={filters.year ? { value: filters.year, label: filters.year } : null}
-                onChange={(option) => onChange({ ...filters, year: option ? option.value : '' })}
+                onChange={(option) => handleFilterChange({ ...filters, year: option ? option.value : '' })}
                 options={createOptions(availableFilters.years)}
                 isClearable
                 placeholder="Select Year"
@@ -26,7 +30,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
                 id="venue-filter"
                 className="filter-select"
                 value={filters.venue ? { value: filters.venue, label: filters.venue } : null}
-                onChange={(option) => onChange({ ...filters, venue: option ? option.value : '' })}
+                onChange={(option) => handleFilterChange({ ...filters, venue: option ? option.value : '' })}
                 options={createOptions(availableFilters.venues)}
                 isClearable
                 placeholder="Select Venue"
@@ -34,7 +38,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
 
             <PerformerSelect
                 value={filters.performer}
-                onChange={(value) => onChange({ ...filters, performer: value })}
+                onChange={(value) => handleFilterChange({ ...filters, performer: value })}
                 performers={availableFilters.performers}
             />
         </div>
@@ -88,8 +92,6 @@ export const FlyerGallery = ({ rootElement }) => {
         performers: []
     });
     const [perPage, setPerPage] = useState(12);
-
-    const attributes = JSON.parse(rootElement.dataset.attributes);
     const ajaxUrl = rootElement.dataset.ajaxUrl;
     const nonce = rootElement.dataset.nonce;
 
@@ -190,7 +192,7 @@ export const FlyerGallery = ({ rootElement }) => {
                             className="flyer-gallery-item"
                             onClick={() => handleImageSelect(image, index)}
                         >
-                            <img src={image.thumbnail} alt={image.alt} />
+                            <img src={image.thumbnail} alt={image.alt ? image.alt : 'Punk/Hardcore Flyer from ' + image.event_date} />
                         </div>
                     ))
                 )}

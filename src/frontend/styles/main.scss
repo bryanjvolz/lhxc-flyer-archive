@@ -2,6 +2,8 @@
 
 :root {
   --main-text: #333;
+  --light-text: #fff;
+  --light-accent-color: var(--page-bg);
 }
 
 // Base styles for the gallery
@@ -183,28 +185,26 @@
 }
 
 .flyer-gallery-lightbox .lightbox-content {
-  background-color: tan;
-  background-image: url("../images/grunge_bg1.jpg");
-  border-radius: 3px;
-  max-height: 90vh;
-  max-width: 90vw;
+  background-color: rgba(0,0,0,.40);
+  height: 100%;
   padding: 1.25rem;
   position: relative;
   position: relative;
+  width: 100%;
 
-  &::after{
-    background: rgba(255,255,255,.5);
-    content: '';
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 0;
-  }
-  div {
-    z-index: 1;
-  }
+  // &::after{
+  //   background: rgba(255,255,255,.5);
+  //   content: '';
+  //   height: 100%;
+  //   left: 0;
+  //   position: absolute;
+  //   top: 0;
+  //   width: 100%;
+  //   z-index: 0;
+  // }
+  // div {
+  //   z-index: 1;
+  // }
 
   @media screen and (min-width: 30rem) {
     display: grid;
@@ -243,9 +243,9 @@
 .flyer-gallery-lightbox .close-button {
   background: none;
   border: none;
-  color: var(--main-text);
+  color: var(--light-text);
   cursor: pointer;
-  font-size: 34px;
+  font-size: 2.5em;
   font-weight: bold;
   position: absolute;
   right: 10px;
@@ -255,6 +255,7 @@
   z-index: 1;
 
   &:hover, &:focus, &:active {
+    color: var(--light-accent-color);
     rotate: 12deg;
   }
 }
@@ -294,11 +295,30 @@
 }
 
 .flyer-gallery-lightbox .image-info {
+  color: white;
   padding: 0.5em 1em;
+  word-break: break-all;
 }
 
 .flyer-gallery-lightbox .image-info h3 {
-  margin: 0 0 10px;
+  color: var(--main-text);
+  word-wrap: break-word;
+  word-break: auto-phrase;
+  margin: 0 0 .25em;
+  padding: .15em .25em;
+  rotate: 2deg;
+
+  &::after {
+    background: tan;
+    content: '';
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    rotate: -3deg;
+    width: 100%;
+    z-index: -1;
+  }
 }
 
 .flyer-gallery-lightbox .image-info p {
@@ -353,6 +373,7 @@
 
 .performer-tag {
   background: #d7d3d3;
+  color: #333;
   padding: 0.25rem 0.5rem;
   border-radius: 3px;
   font-size: 0.9em;
@@ -372,12 +393,12 @@
 }
 
 .share-email-link, .report-flyer-link {
-  color: var(--main-text);
+  color: var(--light-text);
   border-radius: 4px;
   transition: 0.2s all ease-in-out;
 
   &:hover, &:active, &:focus {
-    color: var(--accent-color);
+    color: var(--light-accent-color);
     rotate: 5deg;
   }
 

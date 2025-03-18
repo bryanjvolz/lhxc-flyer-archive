@@ -61,6 +61,16 @@ class Flyer_Gallery_List_Table extends WP_List_Table
       );
     }
 
+    // Add performer filter
+    if (!empty($_REQUEST['performer'])) {
+        $performer = sanitize_text_field($_REQUEST['performer']);
+        $meta_query[] = array(
+            'key' => '_flyer_gallery_performers',
+            'value' => $performer,
+            'compare' => 'LIKE'
+        );
+    }
+
     $args = array(
       'post_type' => 'attachment',
       'post_status' => 'inherit',
@@ -97,10 +107,12 @@ class Flyer_Gallery_List_Table extends WP_List_Table
 
     $venue = isset($_REQUEST['venue']) ? sanitize_text_field($_REQUEST['venue']) : '';
     $event_date = isset($_REQUEST['event_date']) ? sanitize_text_field($_REQUEST['event_date']) : '';
+    $performer = isset($_REQUEST['performer']) ? sanitize_text_field($_REQUEST['performer']) : '';
 ?>
     <div class="alignleft actions">
       <input type="text" name="venue" value="<?php echo esc_attr($venue); ?>" placeholder="<?php esc_attr_e('Filter by venue', 'flyer-gallery'); ?>">
       <input type="date" name="event_date" value="<?php echo esc_attr($event_date); ?>">
+      <input type="text" name="performer" value="<?php echo esc_attr($performer); ?>" placeholder="<?php esc_attr_e('Filter by performer', 'flyer-gallery'); ?>">
       <?php submit_button(__('Filter', 'flyer-gallery'), '', 'filter_action', false); ?>
     </div>
 <?php

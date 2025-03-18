@@ -146,7 +146,7 @@ function flyer_gallery_attachment_fields($form_fields, $post) {
   // return $form_fields;
   // Replace the single performers field with a tag-like field
   $performers = get_post_meta($post->ID, '_flyer_gallery_performers', true);
-  $performers_array = !empty($performers) ? explode(',', $performers) : array();
+  $performers_array = !empty($performers) ? array_map('trim', explode(',', $performers)) : array();
   $performers_display = implode("\n", $performers_array);
 
   $form_fields['flyer_gallery_performers'] = array(
@@ -198,6 +198,15 @@ function flyer_gallery_save_attachment_fields($post, $attachment) {
           update_post_meta($post['ID'], '_' . $field, sanitize_text_field($attachment[$field]));
       }
   }
+
+    if (isset($attachment['flyer_gallery_performers'])) {
+        $performers = $attachment['flyer_gallery_performers'];
+        // Convert line breaks to commas and clean up
+        $performers_array = array_map('trim', explode("\n", $performers));
+        $performers_array = array_filter($performers_array); // Remove empty lines
+        $performers_string = implode(',', $performers_array);
+        update_post_meta($post['ID'], '_flyer_gallery_performers', $performers_string);
+    }
 
     return $post;
 }
