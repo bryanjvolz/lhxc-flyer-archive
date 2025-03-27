@@ -71,6 +71,7 @@ export default function Lightbox({
             </p>
           )}
           {image.venue && <p><strong>Venue:</strong> {image.venue}</p>}
+          {image.artists && <p><strong>Artist(s):</strong> {image.artists}</p>}
           {image.performers && (
             <div className="performers-section">
               <p>

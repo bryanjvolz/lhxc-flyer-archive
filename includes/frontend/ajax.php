@@ -77,6 +77,7 @@ function flyer_gallery_get_images() {
             'full' => wp_get_attachment_image_url($post->ID, 'full'),
             'event_date' => get_post_meta($post->ID, '_flyer_gallery_event_date', true),
             'venue' => get_post_meta($post->ID, '_flyer_gallery_venue', true),
+            'artists' => get_post_meta($post->ID, '_flyer_gallery_artists', true),
             'performers' => get_post_meta($post->ID, '_flyer_gallery_performers', true)
         );
     }

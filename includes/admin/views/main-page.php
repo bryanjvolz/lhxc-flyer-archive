@@ -5,11 +5,10 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="wrap">
-    <h1><?php _e('Flyer Gallery', 'flyer-gallery'); ?></h1>
+    <h1><?php _e('LHxC Flyer Gallery', 'flyer-gallery'); ?></h1>
 
     <div class="flyer-gallery-admin-welcome">
-        <h2><?php _e('Welcome to Flyer Gallery', 'flyer-gallery'); ?></h2>
-        <p><?php _e('Manage your flyer collection and create beautiful galleries.', 'flyer-gallery'); ?></p>
+        <p><?php _e('Manage your flyer collection and then question where you went wrong in life. Don\'t do it in the opposite order or you\'ll just give up.', 'flyer-gallery'); ?></p>
 
         <div class="flyer-gallery-admin-actions">
             <a href="<?php echo esc_url(admin_url('upload.php')); ?>" class="button button-primary">
@@ -34,7 +33,7 @@ if (!defined('ABSPATH')) {
     <hr>
 
     <div class="flyer-gallery-stats">
-        <h3><?php _e('Gallery Statistics', 'flyer-gallery'); ?></h3>
+        <h3><?php _e('LHxC Flyer Gallery Statistics', 'flyer-gallery'); ?></h3>
 
         <?php
         // Get total flyers
@@ -67,6 +66,16 @@ if (!defined('ABSPATH')) {
             $all_performers = array_merge($all_performers, array_map('trim', $performers));
         }
         $unique_performers = array_unique(array_filter($all_performers));
+
+        // Get unique years from event dates
+        $years = $wpdb->get_col($wpdb->prepare(
+          "SELECT DISTINCT YEAR(meta_value) FROM $wpdb->postmeta
+          WHERE meta_key = %s
+          AND meta_value != ''
+          ORDER BY meta_value DESC",
+          '_flyer_gallery_event_date'
+        ));
+        $unique_years = array_filter($years);
         ?>
 
         <div class="stats-grid">
@@ -83,6 +92,11 @@ if (!defined('ABSPATH')) {
             <div class="stat-box">
                 <h4><?php _e('Total Performers', 'flyer-gallery'); ?></h4>
                 <span class="stat-number"><?php echo count($unique_performers); ?></span>
+            </div>
+
+            <div class="stat-box">
+                <h4><?php _e('Total Years', 'flyer-gallery'); ?></h4>
+                <span class="stat-number"><?php echo count($years); ?></span>
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@ const FlyerGallery = ({ attributes, ajaxUrl, nonce }) => {
     const [filters, setFilters] = useState({
         year: attributes.year || '',
         venue: attributes.venue || '',
-        artist: '',
+        artists: '',
         performer: ''
     });
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const root = createRoot(galleryRoot);
         root.render(
-            <FlyerGallery 
+            <FlyerGallery
                 attributes={attributes}
                 ajaxUrl={ajaxUrl}
                 nonce={nonce}
