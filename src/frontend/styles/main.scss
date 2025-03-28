@@ -74,12 +74,10 @@
 }
 
 .flyer-gallery-item {
-  position: relative;
+  aspect-ratio: 1 / 1;
   cursor: pointer;
-  // background: #fff;
-  // border-radius: 4px;
-  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  // overflow: hidden;
+  overflow: hidden;
+  position: relative;
 
   img {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -297,7 +295,7 @@
 .flyer-gallery-lightbox .image-info {
   color: white;
   padding: 0.5em 1em;
-  word-break: break-all;
+  // word-break: break-all;
 }
 
 .flyer-gallery-lightbox .image-info h3 {

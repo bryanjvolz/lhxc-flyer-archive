@@ -47,12 +47,12 @@ function flyer_gallery_get_images() {
     }
     $venue = isset($_GET['venue']) ? wp_unslash(html_entity_decode(sanitize_text_field($_GET['venue']), ENT_QUOTES)) : '';
 
-    // Add performer filter
+    // Add performer filter with exact matching
     if (!empty($performer)) {
         $meta_query[] = array(
             'key' => '_flyer_gallery_performers',
-            'value' => $performer,
-            'compare' => 'LIKE'
+            'value' => '(^|,\s*)' . preg_quote($performer) . '(\s*,|$)',
+            'compare' => 'REGEXP'
         );
     }
 

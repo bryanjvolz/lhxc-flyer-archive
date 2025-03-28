@@ -3,13 +3,15 @@ import Select from 'react-select';
 import Lightbox from './Lightbox';  // Remove the curly braces
 import PerformerSelect from './PerformerSelect';
 
-const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
+const FlyerGalleryFilters = ({ filters, onChange, availableFilters, onPageChange, setCurrentPage }) => {
     const createOptions = (values) => {
         return values.map(value => ({ value, label: value }));
     };
     const handleFilterChange = (newFilters) => {
       onChange(newFilters);
-      setCurrentPage(1); // Reset to first page to prevent it looking like there's no results
+      // onPageChange(1);
+      setCurrentPage(1);
+      // setCurrentPage(1); // Reset to first page to prevent it looking like there's no results
     };
 
     return (
@@ -22,7 +24,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
                 onChange={(option) => handleFilterChange({ ...filters, year: option ? option.value : '' })}
                 options={createOptions(availableFilters.years)}
                 isClearable
-                placeholder="Select Year"
+                placeholder="Filter Year"
             />
 
             <label class="sr-only" htmlFor="venue-filter">Venues</label>
@@ -33,7 +35,7 @@ const FlyerGalleryFilters = ({ filters, onChange, availableFilters }) => {
                 onChange={(option) => handleFilterChange({ ...filters, venue: option ? option.value : '' })}
                 options={createOptions(availableFilters.venues)}
                 isClearable
-                placeholder="Select Venue"
+                placeholder="Filter Venue"
             />
 
             <PerformerSelect
@@ -53,10 +55,10 @@ const FlyerGalleryPagination = ({ currentPage, totalPages, onPageChange, perPage
                     value={perPage}
                     onChange={e => onPerPageChange(parseInt(e.target.value))}
                 >
-                    <option value="12">12</option>
-                    <option value="24">24</option>
-                    <option value="48">50</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
                     <option value="100">100</option>
+                    <option value="200">200</option>
                 </select>
                 <span>per page</span>
             </div>
@@ -91,7 +93,7 @@ export const FlyerGallery = ({ rootElement }) => {
         venues: [],
         performers: []
     });
-    const [perPage, setPerPage] = useState(12);
+    const [perPage, setPerPage] = useState(20);
     const ajaxUrl = rootElement.dataset.ajaxUrl;
     const nonce = rootElement.dataset.nonce;
 
@@ -128,7 +130,6 @@ export const FlyerGallery = ({ rootElement }) => {
         fetchImages();
     }, [currentPage, filters, perPage]);
 
-
     useEffect(() => {
       // Check for flyer ID in URL on initial load
       const params = new URLSearchParams(window.location.search);
@@ -145,20 +146,31 @@ export const FlyerGallery = ({ rootElement }) => {
   const handleImageSelect = (image, index) => {
       setSelectedImage(image);
       setCurrentImageIndex(index);
-      // Update URL with flyer ID
+      // Update URL with flyer ID and prevent body scroll
       const newUrl = new URL(window.location);
       newUrl.searchParams.set('flyer', image.id);
       window.history.pushState({}, '', newUrl);
+      document.body.style.overflowY = 'hidden';
+      document.body.style.position = 'fixed';
   };
 
   const handleLightboxClose = () => {
       setSelectedImage(null);
       setCurrentImageIndex(null);
-      // Remove flyer ID from URL
+      // Remove flyer ID from URL and restore body scroll
       const newUrl = new URL(window.location);
       newUrl.searchParams.delete('flyer');
       window.history.pushState({}, '', newUrl);
+      document.body.style.overflowY = 'auto';
+      document.body.style.position = '';
   };
+
+  // Add cleanup on component unmount
+  useEffect(() => {
+      return () => {
+          document.body.style.overflow = 'auto';
+      };
+  }, []);
 
     return (
         <div className="flyer-gallery-container">
@@ -166,6 +178,8 @@ export const FlyerGallery = ({ rootElement }) => {
                 filters={filters}
                 onChange={setFilters}
                 availableFilters={availableFilters}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
             />
 
             <FlyerGalleryPagination

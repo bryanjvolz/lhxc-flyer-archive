@@ -25,7 +25,7 @@ const PerformerSelect = ({ value, onChange, performers }) => {
                 onChange={(option) => onChange(option ? option.value : '')}
                 options={createOptions(performers)}
                 isClearable
-                placeholder="Select Band"
+                placeholder="Filter Bands/Performers"
             />
         </>
     );

@@ -1,10 +1,10 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
-import { 
-    PanelBody, 
-    TextControl, 
+import {
+    PanelBody,
+    TextControl,
     SelectControl,
-    RangeControl 
+    RangeControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -31,7 +31,7 @@ registerBlockType('flyer-gallery/main', {
         },
         perPage: {
             type: 'number',
-            default: 12
+            default: 20
         }
     },
 
@@ -64,9 +64,9 @@ registerBlockType('flyer-gallery/main', {
                             label={__('Images per page', 'flyer-gallery')}
                             value={attributes.perPage}
                             onChange={(perPage) => setAttributes({ perPage })}
-                            min={6}
-                            max={48}
-                            step={6}
+                            min={10}
+                            max={200}
+                            step={15}
                         />
                     </PanelBody>
                 </InspectorControls>
