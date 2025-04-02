@@ -20,6 +20,7 @@
 }
 
 .flyer-gallery-item {
+  border: none;
   cursor: pointer;
   transition: transform 0.2s;
 
@@ -75,6 +76,7 @@
 
 .flyer-gallery-item {
   aspect-ratio: 1 / 1;
+  border: none;
   cursor: pointer;
   overflow: hidden;
   position: relative;

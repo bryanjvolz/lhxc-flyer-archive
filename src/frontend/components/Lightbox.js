@@ -39,7 +39,7 @@ export default function Lightbox({
   };
 
   return (
-    <div className="flyer-gallery-lightbox" onClick={onClose}>
+    <div id="flyer-lightbox" className="flyer-gallery-lightbox" onClick={onClose}>
       <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
         <div className="image-header">
           <ShareEmail image={image} />
