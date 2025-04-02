@@ -300,11 +300,12 @@
 
 .flyer-gallery-lightbox .image-info h3 {
   color: var(--main-text);
-  word-wrap: break-word;
-  word-break: auto-phrase;
+  display: inline-block;
   margin: 0 0 .25em;
   padding: .15em .25em;
   rotate: 2deg;
+  word-break: auto-phrase;
+  word-wrap: break-word;
 
   &::after {
     background: tan;
