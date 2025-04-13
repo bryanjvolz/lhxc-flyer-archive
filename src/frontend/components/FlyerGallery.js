@@ -147,7 +147,6 @@ export const FlyerGallery = ({ rootElement }) => {
         setImages(data.data.images);
         setTotalPages(data.data.pages);
 
-        // Update available filters if they exist in the response
         if (data.data.available_filters) {
           setAvailableFilters(data.data.available_filters);
         }
@@ -158,8 +157,46 @@ export const FlyerGallery = ({ rootElement }) => {
     setLoading(false);
   };
 
+  // Initial load effect
   useEffect(() => {
-    fetchImages();
+    const params = new URLSearchParams(window.location.search);
+    const flyerId = params.get("flyer");
+
+    if (flyerId) {
+      // First fetch the single flyer
+      const fetchSingleFlyer = async () => {
+        try {
+          const params = new URLSearchParams({
+            action: "get_flyer",
+            nonce,
+            id: flyerId,
+          });
+
+          const response = await fetch(`${ajaxUrl}?${params}`);
+          const data = await response.json();
+
+          if (data.success && data.data.image) {
+            setSelectedImage(data.data.image);
+            document.body.style.overflowY = "hidden";
+            document.body.style.position = "fixed";
+          }
+        } catch (error) {
+          console.error("Error fetching single flyer:", error);
+        }
+        // Load the gallery after fetching the single flyer
+        fetchImages();
+      };
+      fetchSingleFlyer();
+    } else {
+      fetchImages();
+    }
+  }, []);
+
+  // Regular fetch for page/filter changes
+  useEffect(() => {
+    if (!loading) { // Prevent double fetch during initial load
+      fetchImages();
+    }
   }, [currentPage, filters, perPage]);
 
   useEffect(() => {

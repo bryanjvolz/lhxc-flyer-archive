@@ -117,3 +117,40 @@ function flyer_gallery_get_available_filters() {
         ))
     );
 }
+
+//Retreive one flyer at a time for lightbox/direct linking
+function flyer_gallery_get_single_flyer() {
+  check_ajax_referer('flyer_gallery_nonce', 'nonce');
+
+  $flyer_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+  if (!$flyer_id) {
+      wp_send_json_error(['message' => 'Invalid flyer ID']);
+      return;
+  }
+
+  $flyer = get_post($flyer_id);
+
+  if (!$flyer || $flyer->post_type != 'attachment') {
+      wp_send_json_error(['message' => 'Flyer not found']);
+      return;
+  }
+
+  $response = [
+      'image' => [
+        'id' => $flyer_id,
+        'title' => $flyer->post_title,
+        'thumbnail' => wp_get_attachment_image_url($flyer->ID, 'medium'),
+        'full' => wp_get_attachment_image_url($flyer->ID, 'full'),
+        'event_date' => get_post_meta($flyer->ID, '_flyer_gallery_event_date', true),
+        'venue' => get_post_meta($flyer->ID, '_flyer_gallery_venue', true),
+        'artists' => get_post_meta($flyer->ID, '_flyer_gallery_artists', true),
+        'performers' => get_post_meta($flyer->ID, '_flyer_gallery_performers', true)
+      ]
+  ];
+
+  wp_send_json_success($response);
+}
+
+add_action('wp_ajax_get_flyer', 'flyer_gallery_get_single_flyer');
+add_action('wp_ajax_nopriv_get_flyer', 'flyer_gallery_get_single_flyer');
