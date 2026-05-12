@@ -12,6 +12,7 @@ export default function Lightbox({
   hasNext,
 }) {
   if (!image) return null;
+  console.log("Lightbox image data:", image);
 
   const renderPerformers = (performers) => {
     if (!performers) return null;
@@ -36,6 +37,22 @@ export default function Lightbox({
       month: "short",
       year: "numeric",
     });
+  };
+
+  const submissionDisplay = (submission_name, submission_email) => {
+    if (submission_name && submission_email) {
+      return (
+        <a href={`mailto:${submission_email}`}>
+          {submission_name}
+        </a>
+      );
+    }
+
+    if (submission_name) {
+      return submission_name;
+    }
+
+    return null;
   };
 
   return (
@@ -79,6 +96,11 @@ export default function Lightbox({
                 {renderPerformers(image.performers)}
               </p>
             </div>
+          )}
+          {image.submission_name && (
+            <p class="submission-info">
+              <strong>Submitted by:</strong> {submissionDisplay(image.submission_name, image.submission_email)}
+            </p>
           )}
         </div>
       </div>

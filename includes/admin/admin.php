@@ -79,13 +79,6 @@ function flyer_gallery_attachment_fields($form_fields, $post) {
   }
   $venue_html .= '</datalist>';
 
-  // $form_fields['flyer_gallery_venue'] = array(
-  //     'label' => __('Venue', 'flyer-gallery'),
-  //     'input' => 'html',
-  //     'html' => $venue_html,
-  //     'helps' => __('Enter or select the venue name', 'flyer-gallery')
-  // );
-
   // Get all unique venues
   global $wpdb;
   $venues = $wpdb->get_col($wpdb->prepare(
@@ -134,14 +127,20 @@ function flyer_gallery_attachment_fields($form_fields, $post) {
       'helps' => __('Enter artist names (comma separated)', 'flyer-gallery')
   );
 
-  // Performers/Bands
-  // $performers = get_post_meta($post->ID, '_flyer_gallery_performers', true);
-  // $form_fields['flyer_gallery_performers'] = array(
-  //     'label' => __('Performers/Bands', 'flyer-gallery'),
-  //     'input' => 'textarea',
-  //     'value' => $performers,
-  //     'helps' => __('Enter performers or bands (one per line)', 'flyer-gallery')
-  // );
+  // Submitter info
+  $form_fields['flyer_gallery_submission_name'] = array(
+      'label' => __('Submitted by', 'flyer-gallery'),
+      'input' => 'text',
+      'value' => get_post_meta($post->ID, '_flyer_gallery_submission_name', true),
+      'helps' => __('Enter the name of the person who submitted this flyer', 'flyer-gallery')
+  );
+
+  $form_fields['flyer_gallery_submission_email'] = array(
+      'label' => __('Submitter Email', 'flyer-gallery'),
+      'input' => 'text',
+      'value' => get_post_meta($post->ID, '_flyer_gallery_submission_email', true),
+      'helps' => __('Enter the email address of the person who submitted this flyer', 'flyer-gallery')
+  );
 
   // return $form_fields;
   // Replace the single performers field with a tag-like field
@@ -199,6 +198,24 @@ function flyer_gallery_save_attachment_fields($post, $attachment) {
       }
   }
 
+  if (isset($attachment['flyer_gallery_submission_name'])) {
+      $submission_name = sanitize_text_field($attachment['flyer_gallery_submission_name']);
+      if ($submission_name !== '') {
+          update_post_meta($post['ID'], '_flyer_gallery_submission_name', $submission_name);
+      } else {
+          delete_post_meta($post['ID'], '_flyer_gallery_submission_name');
+      }
+  }
+
+  if (isset($attachment['flyer_gallery_submission_email'])) {
+      $submission_email = sanitize_email($attachment['flyer_gallery_submission_email']);
+      if ($submission_email !== '') {
+          update_post_meta($post['ID'], '_flyer_gallery_submission_email', $submission_email);
+      } else {
+          delete_post_meta($post['ID'], '_flyer_gallery_submission_email');
+      }
+  }
+
     if (isset($attachment['flyer_gallery_performers'])) {
         $performers = $attachment['flyer_gallery_performers'];
         // Convert line breaks to commas and clean up
@@ -215,6 +232,5 @@ function flyer_gallery_save_attachment_fields($post, $attachment) {
 add_action('admin_enqueue_scripts', 'flyer_gallery_admin_styles');
 
 function flyer_gallery_admin_styles() {
-  // wp_enqueue_style('flyer-gallery-admin', FLYER_GALLERY_PLUGIN_URL . 'assets/css/admin.css', array(), FLYER_GALLERY_VERSION);
   wp_enqueue_script('flyer-gallery-admin', FLYER_GALLERY_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), FLYER_GALLERY_VERSION, true);
 }
