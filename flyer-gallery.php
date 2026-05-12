@@ -34,6 +34,8 @@ function flyer_gallery_activate() {
         venue varchar(255),
         artists text,
         performers text,
+        submission_name varchar(255),
+        submission_email varchar(255),
         include_in_gallery tinyint(1) DEFAULT 0,
         created_at datetime DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY  (id),

@@ -314,6 +314,20 @@
   margin: 5px 0;
 }
 
+.flyer-gallery-lightbox .image-info .submission-info {
+  font-size: .75rem;
+  padding: .5em 0;
+
+  a:link {
+    color: var(--light-text);
+    text-decoration: none;
+  }
+  a:hover, a:active, a:focus {
+    color: var(--light-accent-color);
+    text-decoration: underline;
+  }
+}
+
 .flyer-gallery-filters {
   display: flex;
   gap: 1rem;

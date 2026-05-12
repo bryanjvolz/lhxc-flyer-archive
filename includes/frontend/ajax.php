@@ -30,7 +30,9 @@ function flyer_gallery_get_single_flyer() {
         'event_date' => get_post_meta($flyer->ID, '_flyer_gallery_event_date', true),
         'venue' => get_post_meta($flyer->ID, '_flyer_gallery_venue', true),
         'artists' => get_post_meta($flyer->ID, '_flyer_gallery_artists', true),
-        'performers' => get_post_meta($flyer->ID, '_flyer_gallery_performers', true)
+        'performers' => get_post_meta($flyer->ID, '_flyer_gallery_performers', true),
+        'submission_name' => get_post_meta($flyer->ID, '_flyer_gallery_submission_name', true),
+        'submission_email' => get_post_meta($flyer->ID, '_flyer_gallery_submission_email', true)
       ]
   ];
 
@@ -117,7 +119,9 @@ function flyer_gallery_get_images() {
             'event_date' => get_post_meta($post->ID, '_flyer_gallery_event_date', true),
             'venue' => get_post_meta($post->ID, '_flyer_gallery_venue', true),
             'artists' => get_post_meta($post->ID, '_flyer_gallery_artists', true),
-            'performers' => get_post_meta($post->ID, '_flyer_gallery_performers', true)
+            'performers' => get_post_meta($post->ID, '_flyer_gallery_performers', true),
+            'submission_name' => get_post_meta($post->ID, '_flyer_gallery_submission_name', true),
+            'submission_email' => get_post_meta($post->ID, '_flyer_gallery_submission_email', true)
         );
     }
 

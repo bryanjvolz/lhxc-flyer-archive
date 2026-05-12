@@ -203,7 +203,7 @@ export const FlyerGallery = ({ rootElement }) => {
     // Check for flyer ID in URL on initial load
     const params = new URLSearchParams(window.location.search);
     const flyerId = params.get("flyer");
-    if (flyerId) {
+    if (flyerId && !selectedImage) {  // Only set if not already set from single flyer fetch
       const image = images.find((img) => img.id === parseInt(flyerId));
       if (image) {
         setSelectedImage(image);
